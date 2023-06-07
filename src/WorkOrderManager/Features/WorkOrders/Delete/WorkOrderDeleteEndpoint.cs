@@ -15,6 +15,6 @@ public class WorkOrderDeleteEndpoint : Endpoint<WorkOrderDeleteRequest>
             Id = new Guid(request.ID)
         }.ExecuteAsync(c);
 
-         SendOkAsync();
+        await SendOkAsync();
     }
 }
