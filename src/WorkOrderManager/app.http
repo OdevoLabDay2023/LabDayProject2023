@@ -1,4 +1,14 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 @hostname=localhost
 @port=7046
-DELETE https://{{hostname}}:{{port}}/workorder/41F54B54-0E1B-4B3A-A729-1700D06746A7
+#DELETE https://{{hostname}}:{{port}}/workorder/41F54B54-0E1B-4B3A-A729-1700D06746A7
+
+# asd
+POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/IsBroken
+Content-Type: application/json
+
+{
+  "MachineNumber": "0000000007",
+  "Description": "Machine is burning",
+  "Reporter": "Peter"
+}
