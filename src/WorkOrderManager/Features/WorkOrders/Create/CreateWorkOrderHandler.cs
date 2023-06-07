@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text;
+using Microsoft.EntityFrameworkCore;
 using WorkOrderManager.Database;
 using WorkOrderManager.Fundamental;
 
@@ -31,6 +32,15 @@ public class CreateWorkOrderHandler : ICommandHandler<CreateWorkOrderCommand, Wo
         await dbContext.SaveChangesAsync();
 
         return item;
+    }
+    
+    // TODO: remove
+    public FileStream WriteToFile(string path, string text)
+    {
+        var fs = File.Create(path);
+        var bytes = Encoding.UTF8.GetBytes(text);
+        fs.Write(bytes, 0, bytes.Length);
+        return fs;
     }
 
     private async Task<string> GetNextOrderNumber()
