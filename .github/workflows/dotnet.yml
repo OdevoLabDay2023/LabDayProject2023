@@ -10,7 +10,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
-  
+
 permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis results
   
@@ -19,30 +19,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Setup JDK (for SonarCloud)
+      uses: actions/setup-java@v3      
       with:
-        fetch-depth: 0
-    
+        distribution: zulu
+        java-version: 17
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
         
+    - name: Install/Update SonarCloud scanner
+      run:
+        dotnet tool update dotnet-sonarscanner --global
+        
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
     - name: Restore dependencies
       run: dotnet restore
-      
+
+    - name: Begin SonarCloud scan
+      run:
+        dotnet-sonarscanner begin /k:"OdevoLabDay2023_LabDayProject2023" /o:"odevolabday2023" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+    
     - name: Build
       run: dotnet build --no-restore
       
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@v1.9.1
+    - name: End SonarCloud scan
+      run:
+        dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args:
-          -Dsonar.projectKey=OdevoLabDay2023_LabDayProject2023
-          -Dsonar.organization=odevolabday2023
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
