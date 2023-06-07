@@ -5,12 +5,10 @@ using WorkOrderManager.Fundamental;
 namespace WorkOrderManager.Features.WorkOrders.Create;
 public class CreateWorkOrderHandler : ICommandHandler<CreateWorkOrderCommand, WorkOrderEntity>
 {
-    private static List<CreateWorkOrderHandler> foo = new List<CreateWorkOrderHandler>();
     private readonly WorkOrderDbContext dbContext;
 
     public CreateWorkOrderHandler(WorkOrderDbContext dbContext)
     {
-        foo.Add(this);
         this.dbContext = dbContext;
     }
     
