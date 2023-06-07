@@ -1,8 +1,6 @@
-﻿using WorkOrderManager.EventSourcing;
+﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
 
-namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
-
-public class CoffeeMachineIsBrokenCommand : ICommand<CoffeeMachineWorkOrderProjection>
+public class CoffeeMachineIsBrokenCommand : ICommand<Guid>
 {
     public required string MachineNumber { get; init; }
     public required string ProblemDescription { get; init; }

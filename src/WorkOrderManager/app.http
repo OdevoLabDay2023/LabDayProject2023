@@ -3,7 +3,7 @@
 @port=7046
 #DELETE https://{{hostname}}:{{port}}/workorder/41F54B54-0E1B-4B3A-A729-1700D06746A7
 
-# asd
+### Create work order for broken coffee machine
 POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/IsBroken
 Content-Type: application/json
 
@@ -12,3 +12,17 @@ Content-Type: application/json
   "Description": "Machine is burning",
   "Reporter": "Peter"
 }
+
+### Assign repairman to work order
+POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/AssignRepairman
+Content-Type: application/json
+
+{
+  "WorkOrderId" : "f1421173-9138-4705-a380-99f079319d6e",
+  "Repairman" : "The coffee fixer"
+}
+
+
+
+### Get work order for broken coffee machine
+GET https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/f1421173-9138-4705-a380-99f079319d6e

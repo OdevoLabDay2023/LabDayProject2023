@@ -1,10 +1,7 @@
-﻿using WorkOrderManager.EventSourcing;
+﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
 
-namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
-
-public class CoffeeMachineAssignRepairmanCommand : ICommand<CoffeeMachineWorkOrderProjection>
+public class CoffeeMachineAssignRepairmanCommand : ICommand
 {
-    public required string MachineNumber { get; init; }
-    public required string ProblemDescription { get; init; }
-    public required string ProblemReporter { get; init; }
+    public required Guid WorkOrderId { get; init; }
+    public required string Repairman { get; init; }
 }

@@ -7,8 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.0.0" />
+		<!--<PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.0.0" />-->
 		<PackageReference Include="FastEndpoints" Version="5.11.0" />
+		<PackageReference Include="Marten" Version="6.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -2,7 +2,6 @@
 
 public class CoffeeMachineAssignRepairmanRequest
 {
-    public required string MachineNumber { get; init; }
-    public required string Description { get; init; }
-    public required string Reporter { get; init; }
+    public required string WorkOrderId { get; init; }
+    public required string Repairman { get; init; }
 }

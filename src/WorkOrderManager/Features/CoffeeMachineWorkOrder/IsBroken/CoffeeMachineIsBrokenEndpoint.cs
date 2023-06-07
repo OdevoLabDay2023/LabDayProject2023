@@ -20,7 +20,7 @@ public class CoffeeMachineIsBrokenEndpoint : Endpoint<CoffeeMachineIsBrokenReque
 
         var response = new CoffeeMachineIsBrokenResponse()
         {
-            WorkOrderNumber = workOrder.OrderNumber
+            WorkOrderId = workOrder.ToString()
         };
 
         await SendAsync(response);

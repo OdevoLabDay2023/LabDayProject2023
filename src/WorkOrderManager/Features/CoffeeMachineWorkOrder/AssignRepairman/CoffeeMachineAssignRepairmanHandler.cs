@@ -1,56 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Marten;
 using WorkOrderManager.EventSourcing;
-using WorkOrderManager.Fundamental;
 
 namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
-public class CoffeeMachineAssignRepairmanHandler : ICommandHandler<CoffeeMachineAssignRepairmanCommand, CoffeeMachineWorkOrderProjection>
+public class CoffeeMachineAssignRepairmanHandler : ICommandHandler<CoffeeMachineAssignRepairmanCommand>
 {
-    private readonly WorkOrderDbContext dbContext;
+    private readonly IDocumentStore documentStore;
 
-    public CoffeeMachineAssignRepairmanHandler(WorkOrderDbContext dbContext)
+    public CoffeeMachineAssignRepairmanHandler(IDocumentStore documentStore)
     {
-        this.dbContext = dbContext;
+        this.documentStore = documentStore;
     }
-    public Task<CoffeeMachineWorkOrderProjection> ExecuteAsync(CoffeeMachineAssignRepairmanCommand command, CancellationToken ct = default)
+
+    public async Task ExecuteAsync(CoffeeMachineAssignRepairmanCommand command, CancellationToken ct = default)
     {
-        //var orderNumber = await GetNextOrderNumber();
-
-        //var item = new WorkOrderEntity()
-        //{
-        //    Id = Guid.NewGuid(),
-        //    CreatedDate = DateTime.Now,
-        //    OrderNumber = orderNumber,
-        //    Type = command.Type,
-        //    Description = command.Description,
-        //    Reference = command.Reference
-        //};
-
-        //dbContext.WorkOrder.Add(item);
-
-        //await dbContext.SaveChangesAsync();
-
-        //return item;
-
-        var item = new CoffeeMachineWorkOrderProjection()
+        CoffeeMachineWorkOrderRepairmanAssigned repairmanAssigned = new()
         {
-            Id = Guid.NewGuid(),
-            OrderNumber = "007"
+            Repairman = command.Repairman
         };
 
-        return Task.FromResult(item);
-    }
-
-    private async Task<string> GetNextOrderNumber()
-    {
-        var year = "2023";
-        var maxDigits = 10;
-
-        var numberOfWorkorders = await dbContext.WorkOrder.CountAsync();
-
-        var nextNumber = (numberOfWorkorders + 1).ToString()
-            .PadLeft(maxDigits, '0');
-        var formatOrderNumber = $"{year}-{nextNumber}";
-
-        return formatOrderNumber;
+        await using (var session = documentStore.LightweightSession())
+        {
+            session.Events.Append(command.WorkOrderId, repairmanAssigned);
+            await session.SaveChangesAsync();
+        }
     }
 }

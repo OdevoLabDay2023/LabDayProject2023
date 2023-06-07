@@ -2,5 +2,5 @@
 
 public class CoffeeMachineIsBrokenResponse
 {
-    public required string WorkOrderNumber { get; init; }
+    public required string WorkOrderId { get; init; }
 }

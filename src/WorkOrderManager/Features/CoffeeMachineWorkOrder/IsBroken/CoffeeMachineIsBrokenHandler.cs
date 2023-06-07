@@ -1,21 +1,18 @@
-﻿using EventStore.Client;
-using System.Reflection.Emit;
+﻿using Marten;
 using System.Security.Cryptography;
-using System.Text.Json;
 using WorkOrderManager.EventSourcing;
 
 namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
-public class CoffeeMachineIsBrokenHandler : ICommandHandler<CoffeeMachineIsBrokenCommand, CoffeeMachineWorkOrderProjection>
+public class CoffeeMachineIsBrokenHandler : ICommandHandler<CoffeeMachineIsBrokenCommand, Guid>
 {
-    //private readonly WorkOrderDbContext dbContext;
-    private readonly EventStoreClient eventStoreClient;
+    private readonly IDocumentStore documentStore;
 
-    public CoffeeMachineIsBrokenHandler(EventStoreClient eventStoreClient)
+    public CoffeeMachineIsBrokenHandler(IDocumentStore documentStore)
     {
-        this.eventStoreClient = eventStoreClient;
+        this.documentStore = documentStore;
     }
 
-    public async Task<CoffeeMachineWorkOrderProjection> ExecuteAsync(CoffeeMachineIsBrokenCommand command, CancellationToken ct = default)
+    public async Task<Guid> ExecuteAsync(CoffeeMachineIsBrokenCommand command, CancellationToken ct = default)
     {
         var registrationEvent = new CoffeeMachineIsBrokenRegistration()
         {
@@ -25,24 +22,14 @@ public class CoffeeMachineIsBrokenHandler : ICommandHandler<CoffeeMachineIsBroke
             ProblemReporter = command.ProblemReporter
         };
 
-        var utf8Bytes = JsonSerializer.SerializeToUtf8Bytes(registrationEvent);
-
-        var eventData = new EventData(Uuid.NewUuid(),
-                                       nameof(CoffeeMachineIsBrokenRegistration),
-                                       utf8Bytes.AsMemory());
-
-        var writeResult = await eventStoreClient.AppendToStreamAsync(
-            CoffeeMachineWorkOrderConstants.StreamName,
-            StreamState.Any,
-            new[] { eventData });
-
-        var item = new CoffeeMachineWorkOrderProjection()
+        var workOrderId = Guid.NewGuid();
+        await using (var session = documentStore.LightweightSession())
         {
-            Id = Guid.NewGuid(),
-            OrderNumber = "007"
-        };
+            session.Events.StartStream<CoffeeMachineWorkOrderProjection>(workOrderId, registrationEvent);
+            await session.SaveChangesAsync();
+        }
 
-        return item;
+        return workOrderId;
     }
 
     private static readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();

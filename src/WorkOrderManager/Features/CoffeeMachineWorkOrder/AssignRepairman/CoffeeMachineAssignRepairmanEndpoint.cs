@@ -1,6 +1,6 @@
 ﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
 
-public class CoffeeMachineAssignRepairmanEndpoint : Endpoint<CoffeeMachineAssignRepairmanRequest, CoffeeMachineAssignRepairmanResponse>
+public class CoffeeMachineAssignRepairmanEndpoint : Endpoint<CoffeeMachineAssignRepairmanRequest>
 {
     public override void Configure()
     {
@@ -10,14 +10,13 @@ public class CoffeeMachineAssignRepairmanEndpoint : Endpoint<CoffeeMachineAssign
 
     public override async Task HandleAsync(CoffeeMachineAssignRepairmanRequest request, CancellationToken ct)
     {
-        var workOrder = await new CoffeeMachineAssignRepairmanCommand()
+        await new CoffeeMachineAssignRepairmanCommand()
         {
-            MachineNumber = request.MachineNumber,
-            ProblemDescription = request.Description,
-            ProblemReporter = request.Reporter
+            WorkOrderId = Guid.Parse(request.WorkOrderId),
+            Repairman = request.Repairman
         }
         .ExecuteAsync(ct: ct);
 
-        await SendAsync(new CoffeeMachineAssignRepairmanResponse());
+        await SendOkAsync();
     }
 }

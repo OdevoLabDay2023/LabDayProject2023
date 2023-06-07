@@ -4,16 +4,17 @@ public class CoffeeMachineAssignRepairmanRequestValidator : Validator<CoffeeMach
 {
     public CoffeeMachineAssignRepairmanRequestValidator()
     {
-        //RuleFor(workOrder => workOrder.Description)
-        //    .NotNull()
-        //    .NotEmpty()
-        //    .MinimumLength(10)
-        //    .MaximumLength(500);
+        RuleFor(workOrder => workOrder.WorkOrderId)
+            .NotNull()
+            .NotEmpty()
+            .MinimumLength(4)
+            .MaximumLength(20);
 
-        //RuleFor(workOrder => workOrder.Type)
-        //    .NotNull()
-        //    .NotEmpty()
-        //    .MinimumLength(2)
-        //    .MaximumLength(10);
+
+        RuleFor(workOrder => workOrder.Repairman)
+            .NotNull()
+            .NotEmpty()
+            .MinimumLength(4)
+            .MaximumLength(20);
     }
 }
