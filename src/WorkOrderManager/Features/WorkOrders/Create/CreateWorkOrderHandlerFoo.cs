@@ -3,15 +3,16 @@ using WorkOrderManager.Database;
 using WorkOrderManager.Fundamental;
 
 namespace WorkOrderManager.Features.WorkOrders.Create;
-public class CreateWorkOrderHandler : ICommandHandler<CreateWorkOrderCommand, WorkOrderEntity>
+
+public class CreateWorkOrderHandlerFoo : ICommandHandler<CreateWorkOrderCommand, WorkOrderEntity>
 {
     private readonly WorkOrderDbContext dbContext;
 
-    public CreateWorkOrderHandler(WorkOrderDbContext dbContext)
+    public CreateWorkOrderHandlerFoo(WorkOrderDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
-    
+
     public async Task<WorkOrderEntity> ExecuteAsync(CreateWorkOrderCommand command, CancellationToken ct = default)
     {
         var orderNumber = await GetNextOrderNumber();
