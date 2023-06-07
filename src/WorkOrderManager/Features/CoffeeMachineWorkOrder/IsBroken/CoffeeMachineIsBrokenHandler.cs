@@ -1,4 +1,6 @@
 ﻿using EventStore.Client;
+using System.Reflection.Emit;
+using System.Security.Cryptography;
 using System.Text.Json;
 using WorkOrderManager.EventSourcing;
 
@@ -43,31 +45,14 @@ public class CoffeeMachineIsBrokenHandler : ICommandHandler<CoffeeMachineIsBroke
         return item;
     }
 
+    private static readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();
+
     private string GenerateRandomOrderNumber()
     {
-        var random = new Random();
-        var year = "2023";
-        var maxDigits = 10;
+        var bytes = new byte[8];
+        rng.GetBytes(bytes);
 
-        var nextNumber = random.Next(1, 1000000000)
-            .ToString()
-            .PadLeft(maxDigits, '0');
-        var formatOrderNumber = $"{year}-{nextNumber}";
-
-        return formatOrderNumber;
+        return BitConverter.ToUInt64(bytes, 0).ToString();
     }
 
-    //private async Task<string> GetNextOrderNumber()
-    //{
-    //    var year = "2023";
-    //    var maxDigits = 10;
-
-    //    var numberOfWorkorders = await dbContext.WorkOrder.CountAsync();
-
-    //    var nextNumber = (numberOfWorkorders + 1).ToString()
-    //        .PadLeft(maxDigits, '0');
-    //    var formatOrderNumber = $"{year}-{nextNumber}";
-
-    //    return formatOrderNumber;
-    //}
 }
