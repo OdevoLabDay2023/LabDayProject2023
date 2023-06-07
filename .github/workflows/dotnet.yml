@@ -15,21 +15,7 @@ permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis results
   
 jobs:
-  Analysis:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Analyze with SonarCloud
-        uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
-        with:
-          args:
-            -Dsonar.projectKey=OdevoLabDay2023_LabDayProject2023
-            -Dsonar.organization=odevolabday2023
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -50,3 +36,13 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args:
+          -Dsonar.projectKey=OdevoLabDay2023_LabDayProject2023
+          -Dsonar.organization=odevolabday2023
