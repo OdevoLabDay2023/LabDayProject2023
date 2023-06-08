@@ -1,6 +1,6 @@
 ﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
 
-public class CoffeeMachineIsBrokenEndpoint : Endpoint<CoffeeMachineIsBrokenRequest, CoffeeMachineIsBrokenResponse>
+public class IsBrokenEndpoint : Endpoint<IsBrokenRequest, IsBrokenResponse>
 {
     public override void Configure()
     {
@@ -8,9 +8,9 @@ public class CoffeeMachineIsBrokenEndpoint : Endpoint<CoffeeMachineIsBrokenReque
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(CoffeeMachineIsBrokenRequest request, CancellationToken ct)
+    public override async Task HandleAsync(IsBrokenRequest request, CancellationToken ct)
     {
-        var workOrder = await new CoffeeMachineIsBrokenCommand()
+        var workOrder = await new IsBrokenCommand()
         {
             MachineNumber = request.MachineNumber,
             ProblemDescription = request.Description,
@@ -18,7 +18,7 @@ public class CoffeeMachineIsBrokenEndpoint : Endpoint<CoffeeMachineIsBrokenReque
         }
         .ExecuteAsync(ct: ct);
 
-        var response = new CoffeeMachineIsBrokenResponse()
+        var response = new IsBrokenResponse()
         {
             WorkOrderId = workOrder.ToString()
         };

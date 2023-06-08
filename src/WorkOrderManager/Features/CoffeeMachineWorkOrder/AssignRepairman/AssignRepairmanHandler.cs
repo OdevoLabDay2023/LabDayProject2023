@@ -1,19 +1,19 @@
 ﻿using Marten;
 using WorkOrderManager.EventSourcing;
 
-namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
-public class CoffeeMachineAssignRepairmanHandler : ICommandHandler<CoffeeMachineAssignRepairmanCommand>
+namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.AssignRepairman;
+public class AssignRepairmanHandler : ICommandHandler<AssignRepairmanCommand>
 {
     private readonly IDocumentStore documentStore;
 
-    public CoffeeMachineAssignRepairmanHandler(IDocumentStore documentStore)
+    public AssignRepairmanHandler(IDocumentStore documentStore)
     {
         this.documentStore = documentStore;
     }
 
-    public async Task ExecuteAsync(CoffeeMachineAssignRepairmanCommand command, CancellationToken ct = default)
+    public async Task ExecuteAsync(AssignRepairmanCommand command, CancellationToken ct = default)
     {
-        CoffeeMachineWorkOrderRepairmanAssigned repairmanAssigned = new()
+        CoffeeMachineRepairmanAssigned repairmanAssigned = new()
         {
             Repairman = command.Repairman
         };

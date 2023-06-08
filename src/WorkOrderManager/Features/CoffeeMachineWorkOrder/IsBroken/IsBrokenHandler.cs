@@ -3,18 +3,18 @@ using System.Security.Cryptography;
 using WorkOrderManager.EventSourcing;
 
 namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
-public class CoffeeMachineIsBrokenHandler : ICommandHandler<CoffeeMachineIsBrokenCommand, Guid>
+public class IsBrokenHandler : ICommandHandler<IsBrokenCommand, Guid>
 {
     private readonly IDocumentStore documentStore;
 
-    public CoffeeMachineIsBrokenHandler(IDocumentStore documentStore)
+    public IsBrokenHandler(IDocumentStore documentStore)
     {
         this.documentStore = documentStore;
     }
 
-    public async Task<Guid> ExecuteAsync(CoffeeMachineIsBrokenCommand command, CancellationToken ct = default)
+    public async Task<Guid> ExecuteAsync(IsBrokenCommand command, CancellationToken ct = default)
     {
-        var registrationEvent = new CoffeeMachineIsBrokenRegistration()
+        var registrationEvent = new CoffeeMachineBroken()
         {
             OrderNumber = GenerateRandomOrderNumber(),
             MachineNumber = command.MachineNumber,

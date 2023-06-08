@@ -1,20 +1,20 @@
 ﻿using Marten;
 using WorkOrderManager.EventSourcing;
 
-namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.GetById;
-public class GetCoffeeMachineWorkOrderByIdHandler : ICommandHandler<GetCoffeeMachineWorkOrderByIdCommand, CoffeeMachineWorkOrderProjection>
+namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.GetWorkOrderById;
+public class GetWorkOrderByIdHandler : ICommandHandler<GetWorkOrderByIdCommand, CoffeeMachineWorkOrderProjection>
 {
     private readonly IDocumentStore documentStore;
 
-    public GetCoffeeMachineWorkOrderByIdHandler(IDocumentStore documentStore)
+    public GetWorkOrderByIdHandler(IDocumentStore documentStore)
     {
         this.documentStore = documentStore;
     }
 
-    public async Task<CoffeeMachineWorkOrderProjection> ExecuteAsync(GetCoffeeMachineWorkOrderByIdCommand command, CancellationToken ct = default)
+    public async Task<CoffeeMachineWorkOrderProjection> ExecuteAsync(GetWorkOrderByIdCommand command, CancellationToken ct = default)
     {
         await using var session = documentStore.LightweightSession();
-        
+
         var workOrder = await session.Events.AggregateStreamAsync<CoffeeMachineWorkOrderProjection>(command.WorkOrderId) ??
             throw new Exception("WorkOrder not found");
 

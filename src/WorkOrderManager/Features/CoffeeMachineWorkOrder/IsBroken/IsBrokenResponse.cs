@@ -1,6 +1,6 @@
 ﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
 
-public class CoffeeMachineIsBrokenResponse
+public class IsBrokenResponse
 {
     public required string WorkOrderId { get; init; }
 }

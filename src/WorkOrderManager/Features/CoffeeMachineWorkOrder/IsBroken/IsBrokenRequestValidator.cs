@@ -1,8 +1,8 @@
 ﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
 
-public class CoffeeMachineIsBrokenRequestValidator : Validator<CoffeeMachineIsBrokenRequest>
+public class IsBrokenRequestValidator : Validator<IsBrokenRequest>
 {
-    public CoffeeMachineIsBrokenRequestValidator()
+    public IsBrokenRequestValidator()
     {
         RuleFor(x => x.MachineNumber)
             .NotNull()

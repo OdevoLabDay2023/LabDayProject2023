@@ -1,8 +1,9 @@
-﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.GetById;
+﻿namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.GetWorkOrderById;
 
-public class GetCoffeeMachineWorkOrderByIdResponse
+public class GetWorkOrderByIdResponse
 {
     public required string Id { get; set; }
+    public required string Status { get; set; }
     public required string OrderNumber { get; set; }
     public required string MachineNumber { get; set; }
     public required string ProblemDescription { get; set; }

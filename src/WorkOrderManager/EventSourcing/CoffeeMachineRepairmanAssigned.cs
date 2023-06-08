@@ -1,6 +1,6 @@
 ﻿namespace WorkOrderManager.EventSourcing;
 
-public class CoffeeMachineWorkOrderRepairmanAssigned
+public class CoffeeMachineRepairmanAssigned
 {
     public required string Repairman { get; init; }
 }
