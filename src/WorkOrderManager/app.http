@@ -1,4 +1,34 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 @hostname=localhost
 @port=7046
-DELETE https://{{hostname}}:{{port}}/workorder/41F54B54-0E1B-4B3A-A729-1700D06746A7
+
+### Create work order for broken coffee machine
+POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/IsBroken
+Content-Type: application/json
+
+{
+  "MachineNumber": "A000000001",
+  "Description": "No coffee :(",
+  "Reporter": "Peter"
+}
+
+### Assign repairman to work order
+POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/AssignRepairman
+Content-Type: application/json
+
+{
+  "WorkOrderId": "bc730aa9-c1a8-409b-8339-354ffd564cdc",
+  "repairman": "Petter"
+}
+
+
+### Repair Completed
+POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/RepairCompleted
+Content-Type: application/json
+
+{
+  "WorkOrderId" : "bc730aa9-c1a8-409b-8339-354ffd564cdc"
+}
+
+### Get work order for broken coffee machine
+GET https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/bc730aa9-c1a8-409b-8339-354ffd564cdc
