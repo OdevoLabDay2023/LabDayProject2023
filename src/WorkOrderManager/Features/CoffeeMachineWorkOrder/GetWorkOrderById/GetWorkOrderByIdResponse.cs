@@ -9,4 +9,7 @@ public class GetWorkOrderByIdResponse
     public required string ProblemDescription { get; set; }
     public required string ProblemReporter { get; set; }
     public required string? Repairman { get; set; }
+    public required string? SecondsToComplete { get; set; }
+
+    
 }

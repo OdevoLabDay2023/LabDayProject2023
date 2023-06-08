@@ -1,4 +1,5 @@
-﻿using static WorkOrderManager.EventSourcing.CoffeeMachineConstants;
+﻿using WorkOrderManager.EventSourcing.Events;
+using static WorkOrderManager.EventSourcing.CoffeeMachineConstants;
 
 namespace WorkOrderManager.EventSourcing
 {
@@ -13,24 +14,45 @@ namespace WorkOrderManager.EventSourcing
         public string ProblemReporter { get; set; } = null!;
         public string? Repairman { get; set; }
 
-        public void Apply(CoffeeMachineBroken registration)
+        public DateTime? RegistrationDate { get; set; }
+        public DateTime? WorkOrderAssignedDate { get; set; }
+
+        public DateTime? RepairDate { get; set; }
+
+        public double? SecondsToComplete
+        {
+            get
+            {
+                if (WorkOrderAssignedDate == null || RepairDate == null)
+                {
+                    return null;
+                }
+
+                return RepairDate.Value.Subtract(WorkOrderAssignedDate.Value).TotalSeconds;
+            }
+        }
+
+        public void Apply(CoffeeMachineBrokenEvent registration)
         {
             Status = CoffeeMachineWorkOrderStatus.Registered;
+            RegistrationDate = registration.RegistrationDate;
             OrderNumber = registration.OrderNumber;
             MachineNumber = registration.MachineNumber;
             ProblemDescription = registration.ProblemDescription;
             ProblemReporter = registration.ProblemReporter;
         }
 
-        public void Apply(CoffeeMachineRepairmanAssigned repairmanAssigned)
+        public void Apply(CoffeeMachineRepairmanAssignedEvent repairmanAssigned)
         {
             Status = CoffeeMachineWorkOrderStatus.WorkerAssigned;
+            WorkOrderAssignedDate = repairmanAssigned.AssignedDate;
             Repairman = repairmanAssigned.Repairman;
         }
 
-        public void Apply(CoffeeMachinFixed repairmanAssigned)
+        public void Apply(CoffeeMachinRepairedEvent repaired)
         {
             Status = CoffeeMachineWorkOrderStatus.Completed;
+            RepairDate = repaired.RepairDate;
         }
     }
 }

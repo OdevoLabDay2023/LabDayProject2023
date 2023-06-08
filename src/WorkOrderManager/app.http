@@ -17,8 +17,8 @@ POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/AssignRepairman
 Content-Type: application/json
 
 {
-  "WorkOrderId": "ab8a2f09-bd74-411b-81b2-a717a284b0f9",
-  "repairman": "worker"
+  "WorkOrderId": "bc730aa9-c1a8-409b-8339-354ffd564cdc",
+  "repairman": "Petter"
 }
 
 
@@ -27,8 +27,8 @@ POST https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/RepairCompleted
 Content-Type: application/json
 
 {
-  "WorkOrderId" : "ab8a2f09-bd74-411b-81b2-a717a284b0f9"
+  "WorkOrderId" : "bc730aa9-c1a8-409b-8339-354ffd564cdc"
 }
 
 ### Get work order for broken coffee machine
-GET https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/ab8a2f09-bd74-411b-81b2-a717a284b0f9
+GET https://{{hostname}}:{{port}}/CoffeeMachineWorkOrder/bc730aa9-c1a8-409b-8339-354ffd564cdc

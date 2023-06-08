@@ -1,5 +1,6 @@
 ﻿using Marten;
 using WorkOrderManager.EventSourcing;
+using WorkOrderManager.EventSourcing.Events;
 
 namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.RepairCompleted;
 public class RepairCompletedHandler : ICommandHandler<RepairCompletedCommand>
@@ -13,7 +14,7 @@ public class RepairCompletedHandler : ICommandHandler<RepairCompletedCommand>
 
     public async Task ExecuteAsync(RepairCompletedCommand command, CancellationToken ct = default)
     {
-        var machineFixed = new CoffeeMachinFixed()
+        var machineFixed = new CoffeeMachinRepairedEvent()
         {
             RepairDate = DateTime.Now
         };

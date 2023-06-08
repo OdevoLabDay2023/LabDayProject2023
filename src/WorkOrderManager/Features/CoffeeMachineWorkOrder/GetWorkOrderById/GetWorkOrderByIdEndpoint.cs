@@ -32,7 +32,8 @@ public class GetWorkOrderByIdEndpoint : Endpoint<GetWorkOrderByIdRequest, GetWor
             MachineNumber = workOrder.MachineNumber,
             ProblemDescription = workOrder.ProblemDescription,
             ProblemReporter = workOrder.ProblemReporter,
-            Repairman = workOrder.Repairman
+            Repairman = workOrder.Repairman,
+            SecondsToComplete = workOrder.SecondsToComplete?.ToString()
         };
 
         await SendAsync(response);

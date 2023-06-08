@@ -1,6 +1,7 @@
 ﻿using Marten;
 using System.Security.Cryptography;
 using WorkOrderManager.EventSourcing;
+using WorkOrderManager.EventSourcing.Events;
 
 namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.IsBroken;
 public class IsBrokenHandler : ICommandHandler<IsBrokenCommand, Guid>
@@ -14,8 +15,9 @@ public class IsBrokenHandler : ICommandHandler<IsBrokenCommand, Guid>
 
     public async Task<Guid> ExecuteAsync(IsBrokenCommand command, CancellationToken ct = default)
     {
-        var registrationEvent = new CoffeeMachineBroken()
+        var registrationEvent = new CoffeeMachineBrokenEvent()
         {
+            RegistrationDate = DateTime.Now,
             OrderNumber = GenerateRandomOrderNumber(),
             MachineNumber = command.MachineNumber,
             ProblemDescription = command.ProblemDescription,

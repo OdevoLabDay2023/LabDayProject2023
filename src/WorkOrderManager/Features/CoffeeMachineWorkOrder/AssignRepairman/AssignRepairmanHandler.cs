@@ -1,5 +1,5 @@
 ﻿using Marten;
-using WorkOrderManager.EventSourcing;
+using WorkOrderManager.EventSourcing.Events;
 
 namespace WorkOrderManager.Features.CoffeeMachineWorkOrder.AssignRepairman;
 public class AssignRepairmanHandler : ICommandHandler<AssignRepairmanCommand>
@@ -13,8 +13,9 @@ public class AssignRepairmanHandler : ICommandHandler<AssignRepairmanCommand>
 
     public async Task ExecuteAsync(AssignRepairmanCommand command, CancellationToken ct = default)
     {
-        CoffeeMachineRepairmanAssigned repairmanAssigned = new()
+        CoffeeMachineRepairmanAssignedEvent repairmanAssigned = new()
         {
+            AssignedDate = DateTime.Now,
             Repairman = command.Repairman
         };
 

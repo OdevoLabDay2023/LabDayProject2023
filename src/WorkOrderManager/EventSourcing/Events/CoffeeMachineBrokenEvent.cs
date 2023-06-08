@@ -1,7 +1,8 @@
-﻿namespace WorkOrderManager.EventSourcing
+﻿namespace WorkOrderManager.EventSourcing.Events
 {
-    public class CoffeeMachineBroken
+    public class CoffeeMachineBrokenEvent
     {
+        public required DateTime RegistrationDate { get; init; }
         public required string OrderNumber { get; init; }
         public required string MachineNumber { get; init; }
         public required string ProblemDescription { get; init; }
